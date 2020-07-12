@@ -86,6 +86,7 @@ void NMI_Handler(void)
 void HardFault_Handler(void)
 {
   /* USER CODE BEGIN HardFault_IRQn 0 */
+	printf("hard fault \r\n");
 
   /* USER CODE END HardFault_IRQn 0 */
   while (1)
@@ -209,18 +210,22 @@ void DMA1_Channel6_IRQHandler(void)
   /* USER CODE BEGIN DMA1_Channel6_IRQn 0 */
 
   /* USER CODE END DMA1_Channel6_IRQn 0 */
-  //HAL_DMA_IRQHandler(&hdma_usart2_rx);
-  /* USER CODE BEGIN DMA1_Channel6_IRQn 1 */
-	printf("==%d==\r\n",times++);
-	for(int i=0;i<10;i++)
-	{
-	printf("%c \r\n",recv_buffer[i]);
-	}
+	printf("\r\n==%d==\r\n",times++);
+	
+	
+    HAL_DMA_IRQHandler(&hdma_usart2_rx);
+	
+	memset(recv_buffer,'\0',10);
 
-  //HAL_UART_Receive_DMA(&huart2,recv_buffer,10);
+
+
+	HAL_UART_Receive_DMA(&huart2,(uint8_t *)recv_buffer,10);
+  /* USER CODE BEGIN DMA1_Channel6_IRQn 1 */
+
   /* USER CODE END DMA1_Channel6_IRQn 1 */
 }
 
+#if 1
 /**
   * @brief This function handles USART2 global interrupt / USART2 wake-up interrupt through EXTI line 26.
   */
@@ -230,11 +235,12 @@ void USART2_IRQHandler(void)
 
   /* USER CODE END USART2_IRQn 0 */
   HAL_UART_IRQHandler(&huart2);
+	
   /* USER CODE BEGIN USART2_IRQn 1 */
 
   /* USER CODE END USART2_IRQn 1 */
 }
-
+#endif 
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */

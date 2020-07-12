@@ -84,33 +84,6 @@ static void MX_USART2_UART_Init(void);
 
 /* USER CODE END PFP */
 
-static void DMA_SetConfig(DMA_HandleTypeDef *hdma, uint32_t SrcAddress, uint32_t DstAddress, uint32_t DataLength)
-{
-	/* Clear all flags */
-  hdma->DmaBaseAddress->IFCR  = (DMA_FLAG_GL1 << hdma->ChannelIndex);
-  
-  /* Configure DMA Channel data length */
-  hdma->Instance->CNDTR = DataLength;
-  
-  /* Peripheral to Memory */
-  if((hdma->Init.Direction) == DMA_MEMORY_TO_PERIPH)
-  {   
-    /* Configure DMA Channel destination address */
-    hdma->Instance->CPAR = DstAddress;
-    
-    /* Configure DMA Channel source address */
-    hdma->Instance->CMAR = SrcAddress;
-  }
-  /* Memory to Peripheral */
-  else
-  {
-    /* Configure DMA Channel source address */
-    hdma->Instance->CPAR = SrcAddress;
-    
-    /* Configure DMA Channel destination address */
-    hdma->Instance->CMAR = DstAddress;
-  }
-}
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
@@ -118,7 +91,8 @@ static void DMA_SetConfig(DMA_HandleTypeDef *hdma, uint32_t SrcAddress, uint32_t
 {
   /* DMA controller clock enable */
   __HAL_RCC_DMA1_CLK_ENABLE();
-
+	
+	huart2.hdmarx=  &hdma_usart2_rx;
     __HAL_LINKDMA(&huart2,hdmatx,hdma_usart2_rx);    //将DMA与USART1联系起来(发送DMA)
     
     //Tx DMA配置
@@ -132,8 +106,8 @@ static void DMA_SetConfig(DMA_HandleTypeDef *hdma, uint32_t SrcAddress, uint32_t
     hdma_usart2_rx.Init.Priority=DMA_PRIORITY_MEDIUM;               //中等优先级
 	
           
-    DMA_SetConfig(&hdma_usart2_rx, (uint32_t)USART2->RDR, (uint32_t)recv_buffer, 10);
-    HAL_DMA_DeInit(&hdma_usart2_rx);   
+    //DMA_SetConfig(&hdma_usart2_rx, (uint32_t)USART2->RDR, (uint32_t)recv_buffer, 10);
+    //HAL_DMA_DeInit(&hdma_usart2_rx);   
     HAL_DMA_Init(&hdma_usart2_rx);	
 	
 	__HAL_DMA_ENABLE_IT(&hdma_usart2_rx,DMA_IT_TC);
@@ -142,15 +116,29 @@ static void DMA_SetConfig(DMA_HandleTypeDef *hdma, uint32_t SrcAddress, uint32_t
 	
 	
 
-  /* DMA interrupt init */
-  /* DMA1_Channel6_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel6_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Channel6_IRQn);
-  	 //hdma_usart2_rx.Instance->CCR |= DMA_CCR_EN;
-__HAL_DMA_ENABLE(&hdma_usart2_rx);	 
+	/* DMA interrupt init */
+	/* DMA1_Channel6_IRQn interrupt configuration */
+	HAL_NVIC_SetPriority(DMA1_Channel6_IRQn, 1, 1);
+	HAL_NVIC_EnableIRQ(DMA1_Channel6_IRQn);
+	 //hdma_usart2_rx.Instance->CCR |= DMA_CCR_EN;
+	__HAL_DMA_ENABLE(&hdma_usart2_rx);	 
 
 }
 /* USER CODE END 0 */
+
+void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef *huart)
+{
+	if(huart ==&huart2)
+	{
+		for(int i=0;i<10;i++)
+		{
+		  printf("%c\r\n",recv_buffer[i]);
+	    }
+		
+   __HAL_UART_DISABLE(&huart2);	
+   __HAL_UART_ENABLE(&huart2);		
+	}
+}
 
 /**
   * @brief  The application entry point.
@@ -161,6 +149,8 @@ int main(void)
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
+  uint8_t cargo[10];
+  uint8_t *point_cargo=cargo;
   
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -184,9 +174,12 @@ int main(void)
   
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-  printf("gooooood \r\n");
+  
   MX_DMA_Init();
-  //HAL_UART_Receive_DMA(&huart2,recv_buffer,10);
+  printf("gooooood \r\n");
+  //HAL_DMA_Start_IT(&hdma_usart2_rx,(uint32_t)USART2->RDR,(uint32_t)recv_buffer,10);
+
+  HAL_UART_Receive_DMA(&huart2,(uint8_t *)recv_buffer,10);
   /* USER CODE END 2 */
    
   /* Infinite loop */
@@ -263,9 +256,12 @@ static void MX_USART2_UART_Init(void)
   huart2.Init.Parity = UART_PARITY_NONE;
   huart2.Init.Mode = UART_MODE_TX_RX;
   huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
-  huart2.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
-  huart2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+  //huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+  //huart2.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+  //huart2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+	
+	
+  	
   if (HAL_UART_Init(&huart2) != HAL_OK)
   {
     Error_Handler();
