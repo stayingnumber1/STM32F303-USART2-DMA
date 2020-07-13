@@ -70,6 +70,7 @@ int fputc(int ch, FILE *f)
 /* Private variables ---------------------------------------------------------*/
 UART_HandleTypeDef huart2;
 DMA_HandleTypeDef hdma_usart2_rx;
+DMA_HandleTypeDef hdma_usart2_tx;
 
 /* USER CODE BEGIN PV */
 
@@ -87,16 +88,16 @@ static void MX_USART2_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
- static void MX_DMA_Init(void) 
+ static void MX_DMA_RX_Init(void) 
 {
   /* DMA controller clock enable */
   __HAL_RCC_DMA1_CLK_ENABLE();
 	
 	huart2.hdmarx=  &hdma_usart2_rx;
-    __HAL_LINKDMA(&huart2,hdmatx,hdma_usart2_rx);    //将DMA与USART1联系起来(发送DMA)
+    __HAL_LINKDMA(&huart2,hdmarx,hdma_usart2_rx);                   //将DMA与USART2联系起来(发送DMA)
     
     //Tx DMA配置
-    hdma_usart2_rx.Instance=DMA1_Channel6;                            //数据流选择
+    hdma_usart2_rx.Instance=DMA1_Channel6;                          //数据流选择
     hdma_usart2_rx.Init.Direction=DMA_PERIPH_TO_MEMORY;             //存储器到外设
     hdma_usart2_rx.Init.PeriphInc=DMA_PINC_DISABLE;                 //外设非增量模式
     hdma_usart2_rx.Init.MemInc=DMA_MINC_ENABLE;                     //存储器增量模式
@@ -126,18 +127,78 @@ static void MX_USART2_UART_Init(void);
 }
 /* USER CODE END 0 */
 
+
+/* Private user code ---------------------------------------------------------*/
+/* USER CODE BEGIN 0 */
+ static void MX_DMA_TX_Init(void) 
+{
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA1_CLK_ENABLE();
+	
+	huart2.hdmatx=  &hdma_usart2_tx;
+    __HAL_LINKDMA(&huart2,hdmatx,hdma_usart2_tx);                   //将DMA与USART2联系起来(发送DMA)
+    
+    //Tx DMA配置
+    hdma_usart2_tx.Instance=DMA1_Channel7;                          //数据流选择
+    hdma_usart2_tx.Init.Direction=DMA_MEMORY_TO_PERIPH;             //存储器到外设
+    hdma_usart2_tx.Init.PeriphInc=DMA_PINC_DISABLE;                 //外设非增量模式
+    hdma_usart2_tx.Init.MemInc=DMA_MINC_ENABLE;                     //存储器增量模式
+    hdma_usart2_tx.Init.PeriphDataAlignment=DMA_PDATAALIGN_BYTE;    //外设数据长度:8位
+    hdma_usart2_tx.Init.MemDataAlignment=DMA_MDATAALIGN_BYTE;       //存储器数据长度:8位
+    hdma_usart2_tx.Init.Mode=DMA_NORMAL;                            //外设普通模式
+    hdma_usart2_tx.Init.Priority=DMA_PRIORITY_MEDIUM;               //中等优先级
+	
+          
+    //DMA_SetConfig(&hdma_usart2_rx, (uint32_t)USART2->RDR, (uint32_t)recv_buffer, 10);
+    //HAL_DMA_DeInit(&hdma_usart2_rx);   
+    HAL_DMA_Init(&hdma_usart2_tx);	
+	
+	__HAL_DMA_ENABLE_IT(&hdma_usart2_tx,DMA_IT_TC);
+	__HAL_UART_ENABLE_IT(&huart2,UART_DMA_TX_ENABLE);
+
+	/* DMA interrupt init */
+	/* DMA1_Channel6_IRQn interrupt configuration */
+	HAL_NVIC_SetPriority(DMA1_Channel7_IRQn, 1, 1);
+	HAL_NVIC_EnableIRQ(DMA1_Channel7_IRQn);
+	 //hdma_usart2_rx.Instance->CCR |= DMA_CCR_EN;
+	__HAL_DMA_ENABLE(&hdma_usart2_tx);	
+
+}
+
+
 void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef *huart)
 {
 	if(huart ==&huart2)
 	{
+		
 		for(int i=0;i<10;i++)
 		{
 		  printf("%c\r\n",recv_buffer[i]);
 	    }
+		printf("\r\n rx call back \r\n");
+        __HAL_UART_DISABLE(&huart2);	
+        __HAL_UART_ENABLE(&huart2);
+		HAL_Delay(10);
 		
-   __HAL_UART_DISABLE(&huart2);	
-   __HAL_UART_ENABLE(&huart2);		
+		HAL_UART_Transmit_DMA(&huart2,(uint8_t *)send_buffer,5);
+		//HAL_UART_Receive_DMA(&huart2,(uint8_t *)recv_buffer,10);
+
+       		
 	}
+}
+
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
+{
+	
+	if(huart == &huart2)
+	{
+		__HAL_UART_DISABLE(&huart2);	
+        __HAL_UART_ENABLE(&huart2);
+//		uint8_t send_cargo=send_buffer[1];
+		send_buffer[1]=send_buffer[1]+1;
+	    printf("\r\n tx call back \r\n");
+	}
+ 
 }
 
 /**
@@ -175,7 +236,8 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   
-  MX_DMA_Init();
+  MX_DMA_RX_Init();
+  MX_DMA_TX_Init(); 
   printf("gooooood \r\n");
   //HAL_DMA_Start_IT(&hdma_usart2_rx,(uint32_t)USART2->RDR,(uint32_t)recv_buffer,10);
 

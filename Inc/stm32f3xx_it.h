@@ -58,10 +58,12 @@ void DebugMon_Handler(void);
 void PendSV_Handler(void);
 void SysTick_Handler(void);
 void DMA1_Channel6_IRQHandler(void);
+void DMA1_Channel7_IRQHandler(void);
 void USART2_IRQHandler(void);
 /* USER CODE BEGIN EFP */
  
 extern uint8_t recv_buffer[10];
+extern uint8_t send_buffer[5];
 /* USER CODE END EFP */
 
 #ifdef __cplusplus

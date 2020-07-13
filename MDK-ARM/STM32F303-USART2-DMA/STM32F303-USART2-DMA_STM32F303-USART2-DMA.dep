@@ -1,6 +1,6 @@
 Dependencies for Project 'STM32F303-USART2-DMA', Target 'STM32F303-USART2-DMA': (DO NOT MODIFY !)
 F (startup_stm32f303xe.s)(0x5F0A7BE7)(--cpu Cortex-M4.fp -g --apcs=interwork --pd "__MICROLIB SETA 1"-I H:\STM32CubeMX\STM32F303-USART2-DMA\STM32F303-USART2-DMA\MDK-ARM\RTE-I H:\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\CMSIS\Include-I H:\Keil_v5\ARM\PACK\Keil\STM32F3xx_DFP\2.1.0--pd "__UVISION_VERSION SETA 514" --pd "_RTE_ SETA 1" --pd "STM32F303xE SETA 1"--list startup_stm32f303xe.lst --xref -o stm32f303-usart2-dma\startup_stm32f303xe.o --depend stm32f303-usart2-dma\startup_stm32f303xe.d)
-F (../Src/main.c)(0x5F0B0CA0)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include-I H:\STM32CubeMX\STM32F303-USART2-DMA\STM32F303-USART2-DMA\MDK-ARM\RTE-I H:\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\CMSIS\Include-I H:\Keil_v5\ARM\PACK\Keil\STM32F3xx_DFP\2.1.0-D__UVISION_VERSION="514" -D_RTE_ -DSTM32F303xE -DUSE_HAL_DRIVER -DSTM32F303xE -DUSE_HAL_DRIVER -DSTM32F303xE-o stm32f303-usart2-dma\main.o --omf_browse stm32f303-usart2-dma\main.crf --depend stm32f303-usart2-dma\main.d)
+F (../Src/main.c)(0x5F0BC598)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include-I H:\STM32CubeMX\STM32F303-USART2-DMA\STM32F303-USART2-DMA\MDK-ARM\RTE-I H:\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\CMSIS\Include-I H:\Keil_v5\ARM\PACK\Keil\STM32F3xx_DFP\2.1.0-D__UVISION_VERSION="514" -D_RTE_ -DSTM32F303xE -DUSE_HAL_DRIVER -DSTM32F303xE -DUSE_HAL_DRIVER -DSTM32F303xE-o stm32f303-usart2-dma\main.o --omf_browse stm32f303-usart2-dma\main.crf --depend stm32f303-usart2-dma\main.d)
 I (../Inc/main.h)(0x5F0A7BE4)
 I (../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h)(0x5EE9E98A)
 I (../Inc/stm32f3xx_hal_conf.h)(0x5F0A7BE4)
@@ -31,8 +31,8 @@ I (../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pwr_ex.h)(0x5EE9E98A)
 I (../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h)(0x5EE9E98A)
 I (../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart_ex.h)(0x5EE9E98A)
 I (H:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
-I (../Inc/stm32f3xx_it.h)(0x5F0A7D23)
-F (../Src/stm32f3xx_it.c)(0x5F0B0CBC)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include-I H:\STM32CubeMX\STM32F303-USART2-DMA\STM32F303-USART2-DMA\MDK-ARM\RTE-I H:\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\CMSIS\Include-I H:\Keil_v5\ARM\PACK\Keil\STM32F3xx_DFP\2.1.0-D__UVISION_VERSION="514" -D_RTE_ -DSTM32F303xE -DUSE_HAL_DRIVER -DSTM32F303xE -DUSE_HAL_DRIVER -DSTM32F303xE-o stm32f303-usart2-dma\stm32f3xx_it.o --omf_browse stm32f303-usart2-dma\stm32f3xx_it.crf --depend stm32f303-usart2-dma\stm32f3xx_it.d)
+I (../Inc/stm32f3xx_it.h)(0x5F0BBFCB)
+F (../Src/stm32f3xx_it.c)(0x5F0BC4A9)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include-I H:\STM32CubeMX\STM32F303-USART2-DMA\STM32F303-USART2-DMA\MDK-ARM\RTE-I H:\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\CMSIS\Include-I H:\Keil_v5\ARM\PACK\Keil\STM32F3xx_DFP\2.1.0-D__UVISION_VERSION="514" -D_RTE_ -DSTM32F303xE -DUSE_HAL_DRIVER -DSTM32F303xE -DUSE_HAL_DRIVER -DSTM32F303xE-o stm32f303-usart2-dma\stm32f3xx_it.o --omf_browse stm32f303-usart2-dma\stm32f3xx_it.crf --depend stm32f303-usart2-dma\stm32f3xx_it.d)
 I (../Inc/main.h)(0x5F0A7BE4)
 I (../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h)(0x5EE9E98A)
 I (../Inc/stm32f3xx_hal_conf.h)(0x5F0A7BE4)
@@ -62,7 +62,7 @@ I (../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pwr.h)(0x5EE9E98A)
 I (../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pwr_ex.h)(0x5EE9E98A)
 I (../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h)(0x5EE9E98A)
 I (../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart_ex.h)(0x5EE9E98A)
-I (../Inc/stm32f3xx_it.h)(0x5F0A7D23)
+I (../Inc/stm32f3xx_it.h)(0x5F0BBFCB)
 I (H:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
 F (../Src/stm32f3xx_hal_msp.c)(0x5F0B048D)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include-I H:\STM32CubeMX\STM32F303-USART2-DMA\STM32F303-USART2-DMA\MDK-ARM\RTE-I H:\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\CMSIS\Include-I H:\Keil_v5\ARM\PACK\Keil\STM32F3xx_DFP\2.1.0-D__UVISION_VERSION="514" -D_RTE_ -DSTM32F303xE -DUSE_HAL_DRIVER -DSTM32F303xE -DUSE_HAL_DRIVER -DSTM32F303xE-o stm32f303-usart2-dma\stm32f3xx_hal_msp.o --omf_browse stm32f303-usart2-dma\stm32f3xx_hal_msp.crf --depend stm32f303-usart2-dma\stm32f3xx_hal_msp.d)
 I (../Inc/main.h)(0x5F0A7BE4)

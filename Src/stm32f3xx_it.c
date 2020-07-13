@@ -59,9 +59,11 @@
 
 /* External variables --------------------------------------------------------*/
 extern DMA_HandleTypeDef hdma_usart2_rx;
+extern DMA_HandleTypeDef hdma_usart2_tx;
 extern UART_HandleTypeDef huart2;
 /* USER CODE BEGIN EV */
-uint8_t recv_buffer[10];	
+uint8_t recv_buffer[10];
+uint8_t send_buffer[5]="hallo";	
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -210,7 +212,7 @@ void DMA1_Channel6_IRQHandler(void)
   /* USER CODE BEGIN DMA1_Channel6_IRQn 0 */
 
   /* USER CODE END DMA1_Channel6_IRQn 0 */
-	printf("\r\n==%d==\r\n",times++);
+	printf("\r\ndma1 channel6  handler %d\r\n",times++);
 	
 	
     HAL_DMA_IRQHandler(&hdma_usart2_rx);
@@ -223,6 +225,14 @@ void DMA1_Channel6_IRQHandler(void)
   /* USER CODE BEGIN DMA1_Channel6_IRQn 1 */
 
   /* USER CODE END DMA1_Channel6_IRQn 1 */
+}
+
+//DMA 发送完成中断  
+int timers_handler=0;
+void DMA1_Channel7_IRQHandler(void)
+{
+	printf("dma1 channel7  handler %d \r\n",timers_handler++);
+    HAL_DMA_IRQHandler(&hdma_usart2_tx);
 }
 
 #if 1
